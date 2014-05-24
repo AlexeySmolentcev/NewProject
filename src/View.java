@@ -188,8 +188,7 @@ public class View extends JFrame implements Observer {
             }
         }
 
-
-
+        pictureLabel.revalidate();
         repaint();
 
         if (resultFromButton) {
