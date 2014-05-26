@@ -21,7 +21,7 @@ public class Controller implements Strategy{
     }
 
     @Override
-    public void exitApplication() {
-        model.exitApplication();
+    public void nextPicture() {
+        model.nextPicture();
     }
 }

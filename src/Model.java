@@ -43,12 +43,12 @@ public class Model implements Observable {
         for (final Observer anObserverList : observerList) {
             anObserverList.update(state.getBricks(), state.getScore(), state.getDifficulty(), state.getTheme(),
                     state.getPicture(), getBrick(state.getDifficulty()), state.getPictureChanged(),
-                    state.getResultFromButton());
+                    state.getResultFromButton(), state.getEndOfTheGame());
         }
     }
 
     private ImageIcon chooseRandomPicture(final String theme) {
-        String fileName = ".\\src\\images\\";
+        String fileName = ".\\src\\resources\\";
         if (theme.equals("Животные")) {
             fileName += "animals\\";
         } else if (theme.equals("Марки автомобилей")) {
@@ -86,19 +86,19 @@ public class Model implements Observable {
         Image img = null;
         if (difficulty.equals("Легко")) {
             try {
-                img = ImageIO.read(new File(".\\src\\images\\bricks\\big.jpg"));
+                img = ImageIO.read(new File(".\\src\\resources\\bricks\\big.jpg"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if (difficulty.equals("Средне")) {
             try {
-                img = ImageIO.read(new File(".\\src\\images\\bricks\\medium.jpg"));
+                img = ImageIO.read(new File(".\\src\\resources\\bricks\\medium.jpg"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             try {
-                img = ImageIO.read(new File(".\\src\\images\\bricks\\small.jpg"));
+                img = ImageIO.read(new File(".\\src\\resources\\bricks\\small.jpg"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -111,30 +111,30 @@ public class Model implements Observable {
         answerAnimals0.add("утка");
         answerAnimals0.add("селезень");
         answerAnimals0.add("duck");
-        rightAnswers.put(".\\src\\images\\animals\\0.jpg", answerAnimals0);
+        rightAnswers.put(".\\src\\resources\\animals\\0.jpg", answerAnimals0);
 
         List<String> answerAnimals1 = new ArrayList<String>();
         answerAnimals1.add("фламинго");
         answerAnimals1.add("розовый фламинго");
         answerAnimals1.add("flamingo");
-        rightAnswers.put(".\\src\\images\\animals\\1.jpg", answerAnimals1);
+        rightAnswers.put(".\\src\\resources\\animals\\1.jpg", answerAnimals1);
 
         List<String> answerAnimals2 = new ArrayList<String>();
         answerAnimals2.add("лиса");
         answerAnimals2.add("лис");
         answerAnimals2.add("лисица");
         answerAnimals2.add("fox");
-        rightAnswers.put(".\\src\\images\\animals\\2.jpg", answerAnimals2);
+        rightAnswers.put(".\\src\\resources\\animals\\2.jpg", answerAnimals2);
 
         List<String> answerAnimals3 = new ArrayList<String>();
         answerAnimals3.add("кенгуру");
         answerAnimals3.add("kangaroo");
-        rightAnswers.put(".\\src\\images\\animals\\3.jpg", answerAnimals3);
+        rightAnswers.put(".\\src\\resources\\animals\\3.jpg", answerAnimals3);
 
         List<String> answerAnimals4 = new ArrayList<String>();
         answerAnimals4.add("панда");
         answerAnimals4.add("panda");
-        rightAnswers.put(".\\src\\images\\animals\\4.jpg", answerAnimals4);
+        rightAnswers.put(".\\src\\resources\\animals\\4.jpg", answerAnimals4);
 
         List<String> answerAnimals5 = new ArrayList<String>();
         answerAnimals5.add("попугай");
@@ -143,119 +143,119 @@ public class Model implements Observable {
         answerAnimals5.add("parrot");
         answerAnimals5.add("ara");
         answerAnimals5.add("ara parrot");
-        rightAnswers.put(".\\src\\images\\animals\\5.jpg", answerAnimals5);
+        rightAnswers.put(".\\src\\resources\\animals\\5.jpg", answerAnimals5);
 
         List<String> answerAnimals6 = new ArrayList<String>();
         answerAnimals6.add("павлин");
         answerAnimals6.add("peacock");
-        rightAnswers.put(".\\src\\images\\animals\\6.jpg", answerAnimals6);
+        rightAnswers.put(".\\src\\resources\\animals\\6.jpg", answerAnimals6);
 
         List<String> answerAnimals7 = new ArrayList<String>();
         answerAnimals7.add("носорог");
         answerAnimals7.add("rhino");
-        rightAnswers.put(".\\src\\images\\animals\\7.jpg", answerAnimals7);
+        rightAnswers.put(".\\src\\resources\\animals\\7.jpg", answerAnimals7);
 
         List<String> answerAnimals8 = new ArrayList<String>();
         answerAnimals8.add("белка");
         answerAnimals8.add("белочка");
         answerAnimals8.add("squirrel");
-        rightAnswers.put(".\\src\\images\\animals\\8.jpg", answerAnimals8);
+        rightAnswers.put(".\\src\\resources\\animals\\8.jpg", answerAnimals8);
 
         List<String> answerAnimals9 = new ArrayList<String>();
         answerAnimals9.add("черепаха");
         answerAnimals9.add("морская черепаха");
         answerAnimals9.add("thurtle");
-        rightAnswers.put(".\\src\\images\\animals\\9.jpg", answerAnimals9);
+        rightAnswers.put(".\\src\\resources\\animals\\9.jpg", answerAnimals9);
 
         List<String> answerCars0 = new ArrayList<String>();
         answerCars0.add("опель");
         answerCars0.add("opel");
-        rightAnswers.put(".\\src\\images\\cars\\0.jpg", answerCars0);
+        rightAnswers.put(".\\src\\resources\\cars\\0.jpg", answerCars0);
 
         List<String> answerCars1 = new ArrayList<String>();
         answerCars1.add("пежо");
         answerCars1.add("peuget");
-        rightAnswers.put(".\\src\\images\\cars\\1.jpg", answerCars1);
+        rightAnswers.put(".\\src\\resources\\cars\\1.jpg", answerCars1);
 
         List<String> answerCars2 = new ArrayList<String>();
         answerCars2.add("понтиак");
         answerCars2.add("pontiac");
-        rightAnswers.put(".\\src\\images\\cars\\2.jpg", answerCars2);
+        rightAnswers.put(".\\src\\resources\\cars\\2.jpg", answerCars2);
 
         List<String> answerCars3 = new ArrayList<String>();
         answerCars3.add("рено");
         answerCars3.add("renault");
-        rightAnswers.put(".\\src\\images\\cars\\3.jpg", answerCars3);
+        rightAnswers.put(".\\src\\resources\\cars\\3.jpg", answerCars3);
 
         List<String> answerCars4 = new ArrayList<String>();
         answerCars4.add("сеат");
         answerCars4.add("seat");
-        rightAnswers.put(".\\src\\images\\cars\\4.jpg", answerCars4);
+        rightAnswers.put(".\\src\\resources\\cars\\4.jpg", answerCars4);
 
         List<String> answerCars5 = new ArrayList<String>();
         answerCars5.add("шкода");
         answerCars5.add("skoda");
-        rightAnswers.put(".\\src\\images\\cars\\5.jpg", answerCars5);
+        rightAnswers.put(".\\src\\resources\\cars\\5.jpg", answerCars5);
 
         List<String> answerCars6 = new ArrayList<String>();
         answerCars6.add("субару");
         answerCars6.add("subaru");
-        rightAnswers.put(".\\src\\images\\cars\\6.jpg", answerCars6);
+        rightAnswers.put(".\\src\\resources\\cars\\6.jpg", answerCars6);
 
         List<String> answerCars7 = new ArrayList<String>();
         answerCars7.add("сузуки");
         answerCars7.add("suzuki");
-        rightAnswers.put(".\\src\\images\\cars\\7.jpg", answerCars7);
+        rightAnswers.put(".\\src\\resources\\cars\\7.jpg", answerCars7);
 
         List<String> answerCars8 = new ArrayList<String>();
         answerCars8.add("тойота");
         answerCars8.add("toyota");
-        rightAnswers.put(".\\src\\images\\cars\\8.jpg", answerCars8);
+        rightAnswers.put(".\\src\\resources\\cars\\8.jpg", answerCars8);
 
         List<String> answerCars9 = new ArrayList<String>();
         answerCars9.add("фольксваген");
         answerCars9.add("volkswagen");
-        rightAnswers.put(".\\src\\images\\cars\\9.jpg", answerCars9);
+        rightAnswers.put(".\\src\\resources\\cars\\9.jpg", answerCars9);
 
         List<String> answerMusic0 = new ArrayList<String>();
         answerMusic0.add("black sabbath");
-        rightAnswers.put(".\\src\\images\\music\\0.jpg", answerMusic0);
+        rightAnswers.put(".\\src\\resources\\music\\0.jpg", answerMusic0);
 
         List<String> answerMusic1 = new ArrayList<String>();
         answerMusic1.add("iron maiden");
-        rightAnswers.put(".\\src\\images\\music\\1.jpg", answerMusic1);
+        rightAnswers.put(".\\src\\resources\\music\\1.jpg", answerMusic1);
 
         List<String> answerMusic2 = new ArrayList<String>();
         answerMusic2.add("led zeppelin");
-        rightAnswers.put(".\\src\\images\\music\\2.jpg", answerMusic2);
+        rightAnswers.put(".\\src\\resources\\music\\2.jpg", answerMusic2);
 
         List<String> answerMusic3 = new ArrayList<String>();
         answerMusic3.add("linkin park");
-        rightAnswers.put(".\\src\\images\\music\\3.jpg", answerMusic3);
+        rightAnswers.put(".\\src\\resources\\music\\3.jpg", answerMusic3);
 
         List<String> answerMusic4 = new ArrayList<String>();
         answerMusic4.add("metallica");
-        rightAnswers.put(".\\src\\images\\music\\4.jpg", answerMusic4);
+        rightAnswers.put(".\\src\\resources\\music\\4.jpg", answerMusic4);
 
         List<String> answerMusic5 = new ArrayList<String>();
         answerMusic5.add("nirvana");
-        rightAnswers.put(".\\src\\images\\music\\5.jpg", answerMusic5);
+        rightAnswers.put(".\\src\\resources\\music\\5.jpg", answerMusic5);
 
         List<String> answerMusic6 = new ArrayList<String>();
         answerMusic6.add("queen");
-        rightAnswers.put(".\\src\\images\\music\\6.jpg", answerMusic6);
+        rightAnswers.put(".\\src\\resources\\music\\6.jpg", answerMusic6);
 
         List<String> answerMusic7 = new ArrayList<String>();
         answerMusic7.add("rammstein");
-        rightAnswers.put(".\\src\\images\\music\\7.jpg", answerMusic7);
+        rightAnswers.put(".\\src\\resources\\music\\7.jpg", answerMusic7);
 
         List<String> answerMusic8 = new ArrayList<String>();
         answerMusic8.add("the rolling stones");
-        rightAnswers.put(".\\src\\images\\music\\8.jpg", answerMusic8);
+        rightAnswers.put(".\\src\\resources\\music\\8.jpg", answerMusic8);
 
         List<String> answerMusic9 = new ArrayList<String>();
         answerMusic9.add("slipknot");
-        rightAnswers.put(".\\src\\images\\music\\9.jpg", answerMusic9);
+        rightAnswers.put(".\\src\\resources\\music\\9.jpg", answerMusic9);
     }
 
     private void fillUsedPictures() {
@@ -284,6 +284,18 @@ public class Model implements Observable {
 
     private void decreaseScore() {
         state.setScore(Integer.parseInt(state.getScore()) - 100);
+        if (Integer.parseInt(state.getScore()) <= 0) {
+            state.setEndOfTheGame(true);
+        }
+    }
+
+    private void showPicture() {
+        boolean[][] bricks = state.getBricks();
+        for (int i = 0; i < bricks.length; i++) {
+            for (int j = 0; j < bricks[i].length; j++) {
+                bricks[i][j] = false;
+            }
+        }
     }
 
     void labelClicked(final int xCoordinate, final int yCoordinate) {
@@ -302,7 +314,8 @@ public class Model implements Observable {
         state.setResultFromButton(true);
         List<String> currentRightAnswers = state.getRightAnswers();
         if (currentRightAnswers.contains(answer.toLowerCase())) {
-            state.setPicture();
+            state.setPictureChanged(true);
+            showPicture();
             if (state.getIfScore()) {
                 increaseScore();
             }
@@ -314,8 +327,10 @@ public class Model implements Observable {
         notifyObservers();
     }
 
-    void exitApplication() {
-        System.exit(0);
+    void nextPicture() {
+        state.setPicture();
+        state.setResultFromButton(false);
+        notifyObservers();
     }
 
     private class ModelState {
@@ -328,11 +343,13 @@ public class Model implements Observable {
         private List<String> rightAnswers;
         private boolean pictureChanged;
         private boolean resultFromButton;
+        private boolean endOfTheGame;
 
         public ModelState(final boolean score, final int level, final int theme) {
             this.ifScore = score;
             this.difficulty = level;
             this.theme = theme;
+            endOfTheGame = false;
             if (level == 8) {
                 bricks = new boolean[4][2];
                 this.score = 1000;
@@ -432,6 +449,14 @@ public class Model implements Observable {
 
         public void setResultFromButton(final boolean resultFromButton) {
             this.resultFromButton = resultFromButton;
+        }
+
+        public boolean getEndOfTheGame() {
+            return endOfTheGame;
+        }
+
+        public void setEndOfTheGame(final boolean endOfTheGame) {
+            this.endOfTheGame = endOfTheGame;
         }
     }
 }

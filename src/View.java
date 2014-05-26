@@ -17,6 +17,9 @@ public class View extends JFrame implements Observer {
     private JLabel scoreLabel2;
     private JLabel pictureLabel;
     private JPanel brickPanel;
+    private JPanel answerPanel2;
+    private JTextField answerTF;
+    private final Font myFont = new Font("Arial", Font.PLAIN, 15);
 
     public View(final Strategy controller) {
         this.controller = controller;
@@ -27,7 +30,6 @@ public class View extends JFrame implements Observer {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         setVisible(true);
-        final Font myFont = new Font("Arial", Font.PLAIN, 15);
 
 
         final JPanel mainPanel = new JPanel(new FlowLayout());
@@ -90,7 +92,7 @@ public class View extends JFrame implements Observer {
         final JPanel row2 = new JPanel(new GridLayout(2, 1));
         row2.setPreferredSize(new Dimension(500, 180));
 
-        final JTextField answerTF = new JTextField();
+        answerTF = new JTextField();
         answerTF.setPreferredSize(new Dimension(300, 25));
         final JPanel answerPanel1 = new JPanel(new FlowLayout());
         answerPanel1.add(answerTF);
@@ -104,7 +106,7 @@ public class View extends JFrame implements Observer {
                 answerTF.setText("");
             }
         });
-        final JPanel answerPanel2 = new JPanel(new FlowLayout());
+        answerPanel2 = new JPanel(new FlowLayout());
         answerPanel2.add(answerButton);
         row2.add(answerPanel1);
         row2.add(answerPanel2);
@@ -135,10 +137,23 @@ public class View extends JFrame implements Observer {
     @Override
     public void update(final boolean[][] bricks, final String score, final String difficulty, final String theme,
                        final ImageIcon picture, final ImageIcon brick, final boolean pictureChanged,
-                       final boolean resultFromButton) {
+                       final boolean resultFromButton, final boolean endOfTheGame) {
+        answerTF.setEnabled(true);
         themeLabel2.setText(theme);
         levelLabel2.setText(difficulty);
         scoreLabel2.setText(score);
+        answerPanel2.removeAll();
+        final JButton answerButton = new JButton("Ответить");
+        answerButton.setFont(myFont);
+        answerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                controller.buttonClicked(answerTF.getText());
+                answerTF.setText("");
+            }
+        });
+        answerPanel2.add(answerButton);
+
         if (picture != null) {
             pictureLabel.setIcon(picture);
         } else {
@@ -146,7 +161,9 @@ public class View extends JFrame implements Observer {
                     "Вы угадали! Это была последняя картинка. Игра окончена",
                     "Результат проверки ответа",
                     JOptionPane.INFORMATION_MESSAGE);
-            controller.exitApplication();
+            this.dispose();
+            JFrame end = new EndOfGame();
+            end.setVisible(true);
         }
 
         brickPanel.removeAll();
@@ -188,21 +205,46 @@ public class View extends JFrame implements Observer {
             }
         }
 
-        pictureLabel.revalidate();
+        revalidate();
         repaint();
 
-        if (resultFromButton) {
+        if (resultFromButton && picture != null) {
             if (pictureChanged) {
+                answerPanel2.removeAll();
+                final JButton nextButton = new JButton("Дальше");
+                nextButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(final ActionEvent e) {
+                         controller.nextPicture();
+                    }
+                });
+                nextButton.setFont(myFont);
+                answerPanel2.add(nextButton);
+                answerTF.setEnabled(false);
+                revalidate();
+                repaint();
+
                 JOptionPane.showMessageDialog(new Frame(),
                         "Вы угадали!",
                         "Результат проверки ответа",
                         JOptionPane.INFORMATION_MESSAGE);
+
             } else {
                 JOptionPane.showMessageDialog(new Frame(),
                         "Пока неверно. Попробуйте еще раз",
                         "Результат проверки ответа",
                         JOptionPane.INFORMATION_MESSAGE);
             }
+        }
+
+        if (endOfTheGame) {
+            JOptionPane.showMessageDialog(new Frame(),
+                    "Неверно. У Вас кончились очки. Игра окончена",
+                    "Результат проверки ответа",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+            JFrame end = new EndOfGame();
+            end.setVisible(true);
         }
     }
 }

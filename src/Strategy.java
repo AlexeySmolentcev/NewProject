@@ -5,5 +5,5 @@
 public interface Strategy {
     void labelClicked(int xCoordinate, int yCoordinate);
     void buttonClicked(String answer);
-    void exitApplication();
+    void nextPicture();
 }
