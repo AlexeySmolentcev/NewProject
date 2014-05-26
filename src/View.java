@@ -157,12 +157,20 @@ public class View extends JFrame implements Observer {
         if (picture != null) {
             pictureLabel.setIcon(picture);
         } else {
-            JOptionPane.showMessageDialog(new Frame(),
-                    "Вы угадали! Это была последняя картинка. Игра окончена",
-                    "Результат проверки ответа",
-                    JOptionPane.INFORMATION_MESSAGE);
+            if (!score.equals("Счет не ведется")) {
+                JOptionPane.showMessageDialog(new Frame(),
+                        "Это была последняя картинка. Игра окончена. \n" +
+                                "Ваш результат: " + score,
+                        "Результат проверки ответа",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(new Frame(),
+                        "Это была последняя картинка. Игра окончена.",
+                        "Результат проверки ответа",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
             this.dispose();
-            JFrame end = new EndOfGame();
+            JFrame end = new EndOfGame(score);
             end.setVisible(true);
         }
 
@@ -215,7 +223,7 @@ public class View extends JFrame implements Observer {
                 nextButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(final ActionEvent e) {
-                         controller.nextPicture();
+                        controller.nextPicture();
                     }
                 });
                 nextButton.setFont(myFont);
@@ -243,7 +251,7 @@ public class View extends JFrame implements Observer {
                     "Результат проверки ответа",
                     JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
-            JFrame end = new EndOfGame();
+            JFrame end = new EndOfGame(score);
             end.setVisible(true);
         }
     }
