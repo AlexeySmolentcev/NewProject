@@ -24,4 +24,9 @@ public class Controller implements Strategy{
     public void nextPicture() {
         model.nextPicture();
     }
+
+    @Override
+    public int bonusPoints(final int secondsLeft) {
+        return model.bonusPoints(secondsLeft);
+    }
 }

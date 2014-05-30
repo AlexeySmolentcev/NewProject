@@ -6,4 +6,5 @@ public interface Strategy {
     void labelClicked(int xCoordinate, int yCoordinate);
     void buttonClicked(String answer);
     void nextPicture();
+    int bonusPoints(int secondsLeft);
 }

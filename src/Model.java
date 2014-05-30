@@ -333,6 +333,10 @@ public class Model implements Observable {
         notifyObservers();
     }
 
+    int bonusPoints(final int secondsLeft) {
+        return (secondsLeft / 100) * 1500;
+    }
+
     private class ModelState {
         private boolean ifScore;
         private Integer score;

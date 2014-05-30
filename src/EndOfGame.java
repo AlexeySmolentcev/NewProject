@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -36,8 +37,14 @@ public class EndOfGame extends JFrame {
         resultLabelPanel.add(resultLabel);
 
         for (int i = 0; i < scores.size(); i++) {
-            JLabel currentLabel = new JLabel(Integer.toString(i + 1) +
-                    ")                                                                     " + scores.get(i));
+            JLabel currentLabel;
+            if (i != 9) {
+                currentLabel = new JLabel(Integer.toString(i + 1) +
+                        ")                                                                     " + scores.get(i));
+            } else {
+                currentLabel = new JLabel(Integer.toString(i + 1) +
+                        ")                                                                    " + scores.get(i));
+            }
             currentLabel.setFont(myFont);
             resultLabelPanel.add(currentLabel);
         }
@@ -106,40 +113,51 @@ public class EndOfGame extends JFrame {
             for (String score1 : scores) {
                 newScores.add(Integer.parseInt(score1));
             }
-            Collections.sort(newScores);
+            Collections.sort(newScores, new Comparator<Integer>() {
+                @Override
+                public int compare(final Integer o1, final Integer o2) {
+                    if (o1 < o2) {
+                        return 1;
+                    } else if (o1 > o2) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
 
+            try {
+                FileWriter writer = new FileWriter(".\\src\\resources\\Results.txt", false);
+                writer.write("");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            int counter = 0;
             for (Integer newScore : newScores) {
-                BufferedWriter output = null;
-                try {
-                    output = new BufferedWriter(new FileWriter(".\\src\\resources\\Results.txt"));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (counter < 10) {
+                    try {
+                        FileWriter writer = new FileWriter(".\\src\\resources\\Results.txt", true);
+                        writer.write(newScore.toString() + "\n");
+                        writer.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                try {
-                    assert output != null;
-                    output.write(newScore.toString());
-                    output.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                counter++;
             }
         }
     }
 
     private List<String> getScores() {
         List<String> scores = new ArrayList<String>();
-        BufferedReader reader = null;
+        BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(".\\src\\resources\\Results.txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        String line;
-        try {
-            if (reader != null) {
-                while ((line = reader.readLine()) != null) {
-                    scores.add(line);
-                }
+            String line;
+            while ((line = reader.readLine()) != null) {
+                scores.add(line);
             }
         } catch (IOException e) {
             e.printStackTrace();

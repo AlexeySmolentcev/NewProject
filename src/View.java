@@ -12,14 +12,17 @@ import java.awt.event.MouseListener;
 public class View extends JFrame implements Observer {
     private Strategy controller;
 
+    private JFrame thisFrame = this;
     private JLabel themeLabel2;
     private JLabel levelLabel2;
     private JLabel scoreLabel2;
     private JLabel pictureLabel;
+    private JLabel timeLabel2;
     private JPanel brickPanel;
     private JPanel answerPanel2;
     private JTextField answerTF;
     private final Font myFont = new Font("Arial", Font.PLAIN, 15);
+    private int counter = 0;
 
     public View(final Strategy controller) {
         this.controller = controller;
@@ -42,7 +45,7 @@ public class View extends JFrame implements Observer {
         picturePanel.setBorder(BorderFactory.createLoweredBevelBorder());
         row1.add(picturePanel);
 
-        final JPanel labelPanel = new JPanel(new GridLayout(3, 1));
+        final JPanel labelPanel = new JPanel(new GridLayout(4, 1));
         labelPanel.setPreferredSize(new Dimension(200, 400));
         final JPanel themePanel = new JPanel(new GridLayout(2, 1));
         final JLabel themeLabel1 = new JLabel("Выбранная тематика:");
@@ -55,7 +58,7 @@ public class View extends JFrame implements Observer {
         themePanel2.add(themeLabel2);
         themePanel.add(themePanel1);
         themePanel.add(themePanel2);
-        themePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 10, 40, 0),
+        themePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 10, 22, 0),
                 BorderFactory.createLoweredBevelBorder()));
         labelPanel.add(themePanel);
         final JPanel levelPanel = new JPanel(new GridLayout(2, 1));
@@ -69,7 +72,7 @@ public class View extends JFrame implements Observer {
         levelPanel2.add(levelLabel2);
         levelPanel.add(levelPanel1);
         levelPanel.add(levelPanel2);
-        levelPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(20, 10, 20, 0),
+        levelPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(2, 10, 15, 0),
                 BorderFactory.createLoweredBevelBorder()));
         labelPanel.add(levelPanel);
         final JPanel scorePanel = new JPanel(new GridLayout(2, 1));
@@ -83,9 +86,25 @@ public class View extends JFrame implements Observer {
         scorePanel2.add(scoreLabel2);
         scorePanel.add(scorePanel1);
         scorePanel.add(scorePanel2);
-        scorePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(40, 10, 0, 0),
+        scorePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(15, 10, 8, 0),
                 BorderFactory.createLoweredBevelBorder()));
         labelPanel.add(scorePanel);
+
+        final JPanel timePanel = new JPanel(new GridLayout(2, 1));
+        final JLabel timeLabel1 = new JLabel("Осталось времени:");
+        timeLabel2 = new JLabel("15:00");
+        timeLabel1.setFont(myFont);
+        timeLabel2.setFont(myFont);
+        final JPanel timePanel1 = new JPanel(new FlowLayout());
+        timePanel1.add(timeLabel1);
+        final JPanel timePanel2 = new JPanel(new FlowLayout());
+        timePanel2.add(timeLabel2);
+        timePanel.add(timePanel1);
+        timePanel.add(timePanel2);
+        timePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(22, 10, 0, 0),
+                BorderFactory.createLoweredBevelBorder()));
+        labelPanel.add(timePanel);
+
         row1.add(labelPanel);
 
 
@@ -138,6 +157,35 @@ public class View extends JFrame implements Observer {
     public void update(final boolean[][] bricks, final String score, final String difficulty, final String theme,
                        final ImageIcon picture, final ImageIcon brick, final boolean pictureChanged,
                        final boolean resultFromButton, final boolean endOfTheGame) {
+        if (counter == 0) {
+            Timer timer = new Timer(1000, new ActionListener() {
+                private int seconds = 300;
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    seconds -= 1;
+                    String time;
+                    if ((seconds % 60) / 10 == 0) {
+                        time = Integer.toString(seconds / 60) + ":0" + Integer.toString(seconds % 60);
+                    } else {
+                        time = Integer.toString(seconds / 60) + ":" + Integer.toString(seconds % 60);
+                    }
+                    timeLabel2.setText(time);
+                    if (seconds == 0) {
+                        thisFrame.dispose();
+                        JOptionPane.showMessageDialog(new Frame(),
+                                "У Вас кончилось время. Игра окончена",
+                                "Результат проверки ответа",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        JFrame end = new EndOfGame("0");
+                        end.setVisible(true);
+                    }
+                }
+            });
+            timer.start();
+            counter = 10;
+        }
+
         answerTF.setEnabled(true);
         themeLabel2.setText(theme);
         levelLabel2.setText(difficulty);
@@ -157,10 +205,15 @@ public class View extends JFrame implements Observer {
         if (picture != null) {
             pictureLabel.setIcon(picture);
         } else {
+            this.dispose();
+            Integer newScore = 0;
             if (!score.equals("Счет не ведется")) {
+                String[] resultOfSplit = timeLabel2.getText().split(":");
+                int secondsLeft = Integer.parseInt(resultOfSplit[0]) * 60 + Integer.parseInt(resultOfSplit[1]);
+                newScore = Integer.parseInt(score) + controller.bonusPoints(secondsLeft);
                 JOptionPane.showMessageDialog(new Frame(),
                         "Это была последняя картинка. Игра окончена. \n" +
-                                "Ваш результат: " + score,
+                                "Ваш результат: " + newScore.toString(),
                         "Результат проверки ответа",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -169,9 +222,14 @@ public class View extends JFrame implements Observer {
                         "Результат проверки ответа",
                         JOptionPane.INFORMATION_MESSAGE);
             }
-            this.dispose();
-            JFrame end = new EndOfGame(score);
-            end.setVisible(true);
+            if (!score.equals("Счет не ведется")) {
+                JFrame end = new EndOfGame(newScore.toString());
+                end.setVisible(true);
+            } else {
+                JFrame end = new EndOfGame(score);
+                end.setVisible(true);
+            }
+
         }
 
         brickPanel.removeAll();
@@ -246,11 +304,11 @@ public class View extends JFrame implements Observer {
         }
 
         if (endOfTheGame) {
+            this.dispose();
             JOptionPane.showMessageDialog(new Frame(),
                     "Неверно. У Вас кончились очки. Игра окончена",
                     "Результат проверки ответа",
                     JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
             JFrame end = new EndOfGame(score);
             end.setVisible(true);
         }
