@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -127,35 +129,32 @@ public class EndOfGame extends JFrame {
                 }
             });
 
+            int counter = 0;
             try {
-                FileWriter writer = new FileWriter(".\\src\\main\\resources\\Results.txt", false);
-                writer.write("");
+                URL url = this.getClass().getResource("/Results.txt");
+                File result = new File(url.toURI());
+                FileWriter writer = new FileWriter(result);
+                for (Integer newScore : newScores) {
+                    if (counter < 10) {
+                        writer.write(newScore.toString() + "\n");
+                    }
+                    counter++;
+                }
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-
-            int counter = 0;
-            for (Integer newScore : newScores) {
-                if (counter < 10) {
-                    try {
-                        FileWriter writer = new FileWriter(".\\src\\main\\resources\\Results.txt", true);
-                        writer.write(newScore.toString() + "\n");
-                        writer.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                counter++;
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
             }
         }
     }
 
     private List<String> getScores() {
         List<String> scores = new ArrayList<String>();
+        InputStream in = this.getClass().getResourceAsStream("/Results.txt");
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(".\\src\\main\\resources\\Results.txt"));
+            reader = new BufferedReader(new InputStreamReader(in));
             String line;
             while ((line = reader.readLine()) != null) {
                 scores.add(line);

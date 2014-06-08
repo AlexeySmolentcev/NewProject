@@ -1,10 +1,6 @@
 package ru.ifmo.enf.smoletcev.finalWork;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,13 +46,13 @@ public class Model implements Observable {
     }
 
     private ImageIcon chooseRandomPicture(final String theme) {
-        String fileName = ".\\src\\main\\resources\\";
+        String fileName = "";
         if (theme.equals("Животные")) {
-            fileName += "animals\\";
+            fileName += "/animals/";
         } else if (theme.equals("Марки автомобилей")) {
-            fileName += "cars\\";
+            fileName += "/cars/";
         } else {
-            fileName += "music\\";
+            fileName += "/music/";
         }
         List<Integer> currentUsedPictures = usedPictures.get(theme);
         if (currentUsedPictures.size() > 0) {
@@ -67,45 +63,27 @@ public class Model implements Observable {
             fileName += number.toString() + ".jpg";
             currentUsedPictures.remove(number);
             usedPictures.put(theme, currentUsedPictures);
-            Image img = null;
-            try {
-                img = ImageIO.read(new File(fileName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             if (state != null) {
                 state.setRightAnswers(rightAnswers.get(fileName));
             } else {
                 currentRightAnswers = rightAnswers.get(fileName);
             }
-            return new ImageIcon(img);
+            return new ImageIcon(getClass().getResource(fileName));
         } else {
             return null;
         }
     }
 
     private ImageIcon getBrick(final String difficulty) {
-        Image img = null;
+        ImageIcon img;
         if (difficulty.equals("Легко")) {
-            try {
-                img = ImageIO.read(new File(".\\src\\main\\resources\\bricks\\big.jpg"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            img = new ImageIcon(getClass().getResource("/bricks/big.jpg"));
         } else if (difficulty.equals("Средне")) {
-            try {
-                img = ImageIO.read(new File(".\\src\\main\\resources\\bricks\\medium.jpg"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            img = new ImageIcon(getClass().getResource("/bricks/medium.jpg"));
         } else {
-            try {
-                img = ImageIO.read(new File(".\\src\\main\\resources\\bricks\\small.jpg"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            img = new ImageIcon(getClass().getResource("/bricks/small.jpg"));
         }
-        return new ImageIcon(img);
+        return img;
     }
 
     private void fillRightAnswers() {
@@ -113,30 +91,30 @@ public class Model implements Observable {
         answerAnimals0.add("утка");
         answerAnimals0.add("селезень");
         answerAnimals0.add("duck");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\0.jpg", answerAnimals0);
+        rightAnswers.put("/animals/0.jpg", answerAnimals0);
 
         List<String> answerAnimals1 = new ArrayList<String>();
         answerAnimals1.add("фламинго");
         answerAnimals1.add("розовый фламинго");
         answerAnimals1.add("flamingo");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\1.jpg", answerAnimals1);
+        rightAnswers.put("/animals/1.jpg", answerAnimals1);
 
         List<String> answerAnimals2 = new ArrayList<String>();
         answerAnimals2.add("лиса");
         answerAnimals2.add("лис");
         answerAnimals2.add("лисица");
         answerAnimals2.add("fox");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\2.jpg", answerAnimals2);
+        rightAnswers.put("/animals/2.jpg", answerAnimals2);
 
         List<String> answerAnimals3 = new ArrayList<String>();
         answerAnimals3.add("кенгуру");
         answerAnimals3.add("kangaroo");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\3.jpg", answerAnimals3);
+        rightAnswers.put("/animals/3.jpg", answerAnimals3);
 
         List<String> answerAnimals4 = new ArrayList<String>();
         answerAnimals4.add("панда");
         answerAnimals4.add("panda");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\4.jpg", answerAnimals4);
+        rightAnswers.put("/animals/4.jpg", answerAnimals4);
 
         List<String> answerAnimals5 = new ArrayList<String>();
         answerAnimals5.add("попугай");
@@ -145,119 +123,119 @@ public class Model implements Observable {
         answerAnimals5.add("parrot");
         answerAnimals5.add("ara");
         answerAnimals5.add("ara parrot");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\5.jpg", answerAnimals5);
+        rightAnswers.put("/animals/5.jpg", answerAnimals5);
 
         List<String> answerAnimals6 = new ArrayList<String>();
         answerAnimals6.add("павлин");
         answerAnimals6.add("peacock");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\6.jpg", answerAnimals6);
+        rightAnswers.put("/animals/6.jpg", answerAnimals6);
 
         List<String> answerAnimals7 = new ArrayList<String>();
         answerAnimals7.add("носорог");
         answerAnimals7.add("rhino");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\7.jpg", answerAnimals7);
+        rightAnswers.put("/animals/7.jpg", answerAnimals7);
 
         List<String> answerAnimals8 = new ArrayList<String>();
         answerAnimals8.add("белка");
         answerAnimals8.add("белочка");
         answerAnimals8.add("squirrel");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\8.jpg", answerAnimals8);
+        rightAnswers.put("/animals/8.jpg", answerAnimals8);
 
         List<String> answerAnimals9 = new ArrayList<String>();
         answerAnimals9.add("черепаха");
         answerAnimals9.add("морская черепаха");
         answerAnimals9.add("turtle");
-        rightAnswers.put(".\\src\\main\\resources\\animals\\9.jpg", answerAnimals9);
+        rightAnswers.put("/animals/9.jpg", answerAnimals9);
 
         List<String> answerCars0 = new ArrayList<String>();
         answerCars0.add("опель");
         answerCars0.add("opel");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\0.jpg", answerCars0);
+        rightAnswers.put("/cars/0.jpg", answerCars0);
 
         List<String> answerCars1 = new ArrayList<String>();
         answerCars1.add("пежо");
         answerCars1.add("peugeot");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\1.jpg", answerCars1);
+        rightAnswers.put("/cars/1.jpg", answerCars1);
 
         List<String> answerCars2 = new ArrayList<String>();
         answerCars2.add("понтиак");
         answerCars2.add("pontiac");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\2.jpg", answerCars2);
+        rightAnswers.put("/cars/2.jpg", answerCars2);
 
         List<String> answerCars3 = new ArrayList<String>();
         answerCars3.add("рено");
         answerCars3.add("renault");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\3.jpg", answerCars3);
+        rightAnswers.put("/cars/3.jpg", answerCars3);
 
         List<String> answerCars4 = new ArrayList<String>();
         answerCars4.add("сеат");
         answerCars4.add("seat");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\4.jpg", answerCars4);
+        rightAnswers.put("/cars/4.jpg", answerCars4);
 
         List<String> answerCars5 = new ArrayList<String>();
         answerCars5.add("шкода");
         answerCars5.add("skoda");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\5.jpg", answerCars5);
+        rightAnswers.put("/cars/5.jpg", answerCars5);
 
         List<String> answerCars6 = new ArrayList<String>();
         answerCars6.add("субару");
         answerCars6.add("subaru");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\6.jpg", answerCars6);
+        rightAnswers.put("/cars/6.jpg", answerCars6);
 
         List<String> answerCars7 = new ArrayList<String>();
         answerCars7.add("сузуки");
         answerCars7.add("suzuki");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\7.jpg", answerCars7);
+        rightAnswers.put("/cars/7.jpg", answerCars7);
 
         List<String> answerCars8 = new ArrayList<String>();
         answerCars8.add("тойота");
         answerCars8.add("toyota");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\8.jpg", answerCars8);
+        rightAnswers.put("/cars/8.jpg", answerCars8);
 
         List<String> answerCars9 = new ArrayList<String>();
         answerCars9.add("фольксваген");
         answerCars9.add("volkswagen");
-        rightAnswers.put(".\\src\\main\\resources\\cars\\9.jpg", answerCars9);
+        rightAnswers.put("/cars/9.jpg", answerCars9);
 
         List<String> answerMusic0 = new ArrayList<String>();
         answerMusic0.add("black sabbath");
-        rightAnswers.put(".\\src\\main\\resources\\music\\0.jpg", answerMusic0);
+        rightAnswers.put("/music/0.jpg", answerMusic0);
 
         List<String> answerMusic1 = new ArrayList<String>();
         answerMusic1.add("iron maiden");
-        rightAnswers.put(".\\src\\main\\resources\\music\\1.jpg", answerMusic1);
+        rightAnswers.put("/music/1.jpg", answerMusic1);
 
         List<String> answerMusic2 = new ArrayList<String>();
         answerMusic2.add("led zeppelin");
-        rightAnswers.put(".\\src\\main\\resources\\music\\2.jpg", answerMusic2);
+        rightAnswers.put("/music/2.jpg", answerMusic2);
 
         List<String> answerMusic3 = new ArrayList<String>();
         answerMusic3.add("linkin park");
-        rightAnswers.put(".\\src\\main\\resources\\music\\3.jpg", answerMusic3);
+        rightAnswers.put("/music/3.jpg", answerMusic3);
 
         List<String> answerMusic4 = new ArrayList<String>();
         answerMusic4.add("metallica");
-        rightAnswers.put(".\\src\\main\\resources\\music\\4.jpg", answerMusic4);
+        rightAnswers.put("/music/4.jpg", answerMusic4);
 
         List<String> answerMusic5 = new ArrayList<String>();
         answerMusic5.add("nirvana");
-        rightAnswers.put(".\\src\\main\\resources\\music\\5.jpg", answerMusic5);
+        rightAnswers.put("/music/5.jpg", answerMusic5);
 
         List<String> answerMusic6 = new ArrayList<String>();
         answerMusic6.add("queen");
-        rightAnswers.put(".\\src\\resources\\music\\6.jpg", answerMusic6);
+        rightAnswers.put("/music/6.jpg", answerMusic6);
 
         List<String> answerMusic7 = new ArrayList<String>();
         answerMusic7.add("rammstein");
-        rightAnswers.put(".\\src\\main\\resources\\music\\7.jpg", answerMusic7);
+        rightAnswers.put("/music/7.jpg", answerMusic7);
 
         List<String> answerMusic8 = new ArrayList<String>();
         answerMusic8.add("the rolling stones");
-        rightAnswers.put(".\\src\\main\\resources\\music\\8.jpg", answerMusic8);
+        rightAnswers.put("/music/8.jpg", answerMusic8);
 
         List<String> answerMusic9 = new ArrayList<String>();
         answerMusic9.add("slipknot");
-        rightAnswers.put(".\\src\\main\\resources\\music\\9.jpg", answerMusic9);
+        rightAnswers.put("/music/9.jpg", answerMusic9);
     }
 
     private void fillUsedPictures() {
