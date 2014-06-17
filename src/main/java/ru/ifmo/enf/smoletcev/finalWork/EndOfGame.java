@@ -4,12 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -18,9 +13,11 @@ import java.util.List;
  */
 public class EndOfGame extends JFrame {
     private JFrame frame;
+    private UserPreferences prefs = new UserPreferences();
 
     public EndOfGame(final String score) {
         frame = this;
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mainIcon.jpg")));
         setTitle("Угадай картинку");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(350, 450);
@@ -110,57 +107,15 @@ public class EndOfGame extends JFrame {
 
     private void putScore(final String score) {
         if (!score.equals("Счет не ведется")) {
-            List<String> scores = getScores();
-            List<Integer> newScores = new ArrayList<Integer>();
-            newScores.add(Integer.parseInt(score));
-            for (String score1 : scores) {
-                newScores.add(Integer.parseInt(score1));
-            }
-            Collections.sort(newScores, new Comparator<Integer>() {
-                @Override
-                public int compare(final Integer o1, final Integer o2) {
-                    if (o1 < o2) {
-                        return 1;
-                    } else if (o1 > o2) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-            });
-
-            int counter = 0;
-            try {
-                URL url = this.getClass().getResource("/Results.txt");
-                File result = new File(url.toURI());
-                FileWriter writer = new FileWriter(result);
-                for (Integer newScore : newScores) {
-                    if (counter < 10) {
-                        writer.write(newScore.toString() + "\n");
-                    }
-                    counter++;
-                }
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+            prefs.putScore(Integer.parseInt(score));
         }
     }
 
     private List<String> getScores() {
+        List<Integer> scoresInInteger = prefs.getScores();
         List<String> scores = new ArrayList<String>();
-        InputStream in = this.getClass().getResourceAsStream("/Results.txt");
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new InputStreamReader(in));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                scores.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Integer aScoreInInteger : scoresInInteger) {
+            scores.add(aScoreInInteger.toString());
         }
         return scores;
     }

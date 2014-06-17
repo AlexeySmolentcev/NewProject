@@ -2,10 +2,7 @@ package ru.ifmo.enf.smoletcev.finalWork;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 /**
  * Author: Alexey Smolentcev (alexsm95@mail.ru)
@@ -28,6 +25,7 @@ public class View extends JFrame implements Observer {
 
     public View(final Strategy controller) {
         this.controller = controller;
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mainIcon.jpg")));
         setTitle("Угадай картинку");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(550, 600);
@@ -94,7 +92,7 @@ public class View extends JFrame implements Observer {
 
         final JPanel timePanel = new JPanel(new GridLayout(2, 1));
         final JLabel timeLabel1 = new JLabel("Осталось времени:");
-        timeLabel2 = new JLabel("15:00");
+        timeLabel2 = new JLabel("5:00");
         timeLabel1.setFont(myFont);
         timeLabel2.setFont(myFont);
         final JPanel timePanel1 = new JPanel(new FlowLayout());

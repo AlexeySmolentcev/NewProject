@@ -14,6 +14,7 @@ public class StartingFrame extends JFrame {
         final Font myFont = new Font("Arial", Font.PLAIN, 15);
         final JFrame myFrame = this;
 
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mainIcon.jpg")));
         setTitle("Угадай картинку");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(350, 450);
