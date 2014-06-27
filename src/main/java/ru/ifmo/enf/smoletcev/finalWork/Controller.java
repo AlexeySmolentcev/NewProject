@@ -5,6 +5,10 @@ package ru.ifmo.enf.smoletcev.finalWork;
  * Date: 23.05.14
  */
 public class Controller implements Strategy{
+    //это мой контроллер
+
+    //тут нет ничего интересного. он просто прокидывает все методы в модель, принятую в конструкторе
+
     private Model model;
 
     public Controller(final Model model) {
